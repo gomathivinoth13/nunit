@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<AzureFunctionsVersion>v4</AzureFunctionsVersion>
+		<OutputType>Exe</OutputType>
+	</PropertyGroup>
+	<ItemGroup>
+	  <Compile Remove="ServiceCollectionExtensions.cs" />
+	  <Compile Remove="Startup.cs" />
+	</ItemGroup>
+	<ItemGroup>
+	<PackageReference Include="Azure.Core" Version="1.32.0" />
+	<PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.OpenApi" Version="2.0.0-preview2" />
+	<PackageReference Include="Microsoft.Azure.Functions.Worker" Version="1.14.1" />
+  <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
+  <PackageReference Include="Microsoft.Azure.Functions.Worker.Sdk" Version="1.10.0" />
+	 <PackageReference Include="SalesForceLibrary" Version="2022.5.8.1" />
+	 <PackageReference Include="SEG.ApiService.Models" Version="2023.1.24.3" />
+   <PackageReference Include="SEG.EagleEyeLibrary" Version="2022.5.2.1" />
+  </ItemGroup>
+  <ItemGroup>  
+    <None Update="host.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="local.settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+</Project>
+
+

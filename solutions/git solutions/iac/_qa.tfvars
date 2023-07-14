@@ -1,0 +1,7 @@
+digitalmktg_vault_name                = "DigitalMktg-Vault-QA"
+digitalmktg_vault_resource_group_name = "ActiveDirectory-DEV"
+eagleeye_base_url                     = "https://qa-api.segrocers.com/EE"
+eagleeye_campaigns_base_url           = "https://qa-api.segrocers.com/EE"
+salesforce_auth_base_url              = "https://qa-api.segrocers.com/sfmcauthservice/"
+salesforce_rest_base_url              = "https://qa-api.segrocers.com/sfmcservice/"
+sfmc_redis_cache_name                 = "Redis-SFMC-Cache-QA"

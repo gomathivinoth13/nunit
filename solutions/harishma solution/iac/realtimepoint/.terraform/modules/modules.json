@@ -1,0 +1,1 @@
+{"Modules":[{"Key":"realtimepoints_api_app","Source":"git::https://dev.azure.com/SEGDEVOPS/SE%20Grocers/_git/Common.Terraform//modules/shared-plan-function-app-v4-windows-v1","Dir":".terraform/modules/realtimepoints_api_app/modules/shared-plan-function-app-v4-windows-v1"},{"Key":"","Source":"","Dir":"."}]}

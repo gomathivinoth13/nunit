@@ -1,0 +1,25 @@
+trigger:
+  branches:
+    include:
+    - main
+    
+  paths:
+      exclude:
+      - pipelines/* 
+
+variables:    
+- name: poolImage
+  value: 'windows-latest'
+- name: targetFeed
+  value: 'dd8f9621-6fe2-4a0b-a1b4-7e6630236d31'
+
+
+#Your build pipeline references an undefined variable named ‘Parameters.RestoreBuildProjects’. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab. See https://go.microsoft.com/fwlink/?linkid=865972
+
+
+stages:
+- template: ./templates/buildTest.yaml
+  parameters:
+    solution_filename: '**/*.sln'
+    target_Feed : $(targetFeed)
+

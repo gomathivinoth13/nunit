@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="fe90599b-ac26-4462-aa10-b66cbc6a2e35" ChangeDateTime="02/28/2018 21:00:28">
+    <Property Name="ElementName" Value="[dbo].[Device].[FirebasePushToken]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Device]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="FirebaseRegistrationId" />
+  </Operation>
+</Operations>

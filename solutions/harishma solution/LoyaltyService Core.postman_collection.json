@@ -1,0 +1,1089 @@
+{
+	"info": {
+		"_postman_id": "5868e8a5-805d-47c3-a535-d96948e5afdb",
+		"name": "LoyaltyService Core",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [{
+			"name": "GetApplicationSettings",
+			"request": {
+				"method": "GET",
+				"url": {
+					"raw": "https://{{api-base}}/ApplicationSetting/GetApplicationSettings",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"ApplicationSetting",
+						"GetApplicationSettings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SaveApplicationSetting",
+			"request": {
+				"method": "POST",
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"Key\":\"cw3432425\",\r\n\"Value\":\"dask32333\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{api-base}}/ApplicationSetting/SaveApplicationSetting",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"ApplicationSetting",
+						"SaveApplicationSetting"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteApplicationSetting",
+			"request": {
+				"method": "DELETE",
+				"url": {
+					"raw": "https://{{api-base}}/ApplicationSetting/DeleteApplicationSetting?key=cw3432425",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"ApplicationSetting",
+						"DeleteApplicationSetting"
+					],
+					"query": [{
+						"key": "key",
+						"value": "cw3432425"
+					}]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpsertApplicationSetting",
+			"request": {
+				"method": "POST",
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"Key\":\"cw3432425\",\r\n\"Value\":\"dask32333\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{api-base}}/ApplicationSetting/UpsertApplicationSetting",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"ApplicationSetting",
+						"UpsertApplicationSetting"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Registration",
+			"request": {
+				"method": "POST",
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"FirstName\": \"Rick\",\r\n\"LastName\": \"Sanchez\",\r\n\"EmailAddress\": \"wubba@gmail.com\",\r\n\"PhoneNumber\": \"3015551212\",\r\n\"TermsAccepted\": true,\r\n\"memberId\": \"SEGQA0000005345551\",\r\n\"CRC_ID\": 48111513578,\r\n\"School\": \"I\",\r\n\"EntryTime\": \"2023-01-26\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{api-base}}/Catalina/Registration",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Catalina",
+						"Registration"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SendInternalEmail",
+			"request": {
+				"method": "POST",
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"errorResponse\": \"test\",\r\n  \"subject\": \"CW Test\",\r\n  \"toEmail\": \"genesukhorukov@segrocers.com\",\r\n  \"fromEmail\": \"CharlesWoodruff@segrocers.com\",\r\n  \"ccEmail\": \"sparqdigital@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{api-base}}/Utility/SendInternalEmail",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Utility",
+						"SendInternalEmail"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FutureStoreRequest",
+			"request": {
+				"method": "POST",
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"ZipCode\": \"34787\",\r\n  \"EmailAddress\": \"genesukhorukov@segrocers.com\",\r\n  \"CreateDateTime\": \"2023-01-26T13:54:22.463Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{api-base}}/FutureStore/Request",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"FutureStore",
+						"Request"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FutureStoreGetAllRequests",
+			"request": {
+				"method": "POST",
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"ZipCode\": \"34787\",\r\n  \"EmailAddress\": \"genesukhorukov@segrocers.com\",\r\n  \"CreateDateTime\": \"2023-01-26T13:54:22.463Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{api-base}}/FutureStore/GetAllRequests",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"FutureStore",
+						"GetAllRequests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CRCGenerate",
+			"request": {
+				"method": "POST",
+				"body": {
+					"mode": "raw",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{api-base}}/CRC/Generate",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"CRC",
+						"Generate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CRCGenerateMemberId",
+			"request": {
+				"method": "POST",
+				"body": {
+					"mode": "raw",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{api-base}}/CRC/GenerateMemberId",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"CRC",
+						"GenerateMemberId"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CRCGenerateSEGCardNumber",
+			"request": {
+				"method": "POST",
+				"body": {
+					"mode": "raw",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{api-base}}/CRC/GenerateSEGCardNumber",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"CRC",
+						"GenerateSEGCardNumber"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CRCValidate",
+			"request": {
+				"method": "POST",
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"MemberID\": \"SEGQA0000005345550\",\r\n  \"CrcId\": 48111513577,\r\n  \"Banner\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{api-base}}/CRC/Validate",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"CRC",
+						"Validate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "v2SaveCustomer",
+			"request": {
+				"method": "POST",
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"MemberId\": \"\",\r\n    \"FirstName\": \"Testhytest\",\r\n    \"LastName\": null,\r\n    \"BirthDate\": \"1980-10-10T00:00:00\",\r\n    \"GenderCode\": null,\r\n    \"EmailAddress\": \"Testhytest333@gmail.com\",\r\n    \"MobilePhone\": \"8084243109\",\r\n    \"EmailModificationDate\": \"0001-01-01T00:00:00\",\r\n    \"MobileModificationDate\": \"0001-01-01T00:00:00\",\r\n    \"CreatedDate\": \"2020-07-29T08:49:02.671974-04:00\",\r\n    \"LanguageCode\": \"EN\",\r\n    \"EnrollmentStatus\": \"E\",\r\n    \"EmployeeDiscount\": false,\r\n    \"LastShoppedStore\": 0,\r\n    \"LastShopDate\": \"0001-01-01T00:00:00\",\r\n    \"EnrollmentBanner\": \"Harveys\",\r\n    \"EnrollmentDate\": \"2020-07-29T08:49:02.671992-04:00\",\r\n    \"SelfSelectedStoreWD\": 0,\r\n    \"SelfSelectedStoreBL\": 0,\r\n    \"SelfSelectedStoreHvy\": 0,\r\n    \"SelfSelectedStoreFYM\": 0,\r\n    \"AccountPin\": \"4567\",\r\n    \"InvalidPinAttempts\": 0,\r\n    \"PinLockout\": false,\r\n    \"AccountPassword\": \"Password1\",\r\n    \"InvalidPasswordAttempts\": 0,\r\n    \"PushNotificationOptOutStatus\": false,\r\n    \"SMSAuthorizationCode\": null,\r\n    \"SMSOptOutStatus\": false,\r\n    \"SMSPreEnrollmentMessageCount\": 0,\r\n    \"EmailOptOutStatus\": true,\r\n    \"TermsAndConditionsAccepted\": true,\r\n    \"PIISentToExcentus\": null,\r\n    \"GAGSwapDate\": \"0001-01-01T00:00:00\",\r\n    \"GAGSwapStore\": 0,\r\n    \"EMECustomerCareCenter\": false,\r\n    \"EMECustomerCareCenterSR\": false,\r\n    \"EMECS\": false,\r\n    \"EMECSSR\": false,\r\n    \"EMEEmployeeRetired\": false,\r\n    \"EMEEmployeeRetiredSR\": false,\r\n    \"EMECityWide\": false,\r\n    \"EMECityWideSR\": false,\r\n    \"WalletId\": null,\r\n    \"BabyClubWD\": false,\r\n    \"BabyClubBL\": false,\r\n    \"BabyClubHvy\": false,\r\n    \"BabyClubFYM\": false,\r\n    \"CustomerCRC\": [\r\n        {\r\n            \"MemberId\": \"\",\r\n            \"CrcId\": \"44193333333\",\r\n            \"ChainId\": \"3\",\r\n            \"EnrollmentLocId\": 0,\r\n            \"SeniorDiscount\": false,\r\n            \"TaxExempt\": false,\r\n            \"LastUpdateDate\": \"2020-07-29T08:49:02.673135-04:00\",\r\n            \"LastUpdateSource\": \"Mobile\"\r\n        }\r\n    ],\r\n    \"CustomerAddress\": null,\r\n    \"LastUpdateDate\": \"2020-07-29T08:49:02.671951-04:00\",\r\n    \"LastUpdateSource\": \"Mobile\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{api-base}}/v2/Customer/Save?savePin=false&savePassword=false&returnHydratedObject=false&saveCustomerInAzure=false",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"v2",
+						"Customer",
+						"Save"
+					],
+					"query": [{
+							"key": "savePin",
+							"value": "false"
+						},
+						{
+							"key": "savePassword",
+							"value": "false"
+						},
+						{
+							"key": "returnHydratedObject",
+							"value": "false"
+						},
+						{
+							"key": "saveCustomerInAzure",
+							"value": "false"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SaveCustomer",
+			"request": {
+				"method": "POST",
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"MemberId\": \"\",\r\n    \"FirstName\": \"Testhytest\",\r\n    \"LastName\": null,\r\n    \"BirthDate\": \"1980-10-10T00:00:00\",\r\n    \"GenderCode\": null,\r\n    \"EmailAddress\": \"Testhytest3335y@gmail.com\",\r\n    \"MobilePhone\": \"8004243100\",\r\n    \"EmailModificationDate\": \"0001-01-01T00:00:00\",\r\n    \"MobileModificationDate\": \"0001-01-01T00:00:00\",\r\n    \"CreatedDate\": \"2020-07-29T08:49:02.671974-04:00\",\r\n    \"LanguageCode\": \"EN\",\r\n    \"EnrollmentStatus\": \"E\",\r\n    \"EmployeeDiscount\": false,\r\n    \"LastShoppedStore\": 0,\r\n    \"LastShopDate\": \"0001-01-01T00:00:00\",\r\n    \"EnrollmentBanner\": \"Harveys\",\r\n    \"EnrollmentDate\": \"2020-07-29T08:49:02.671992-04:00\",\r\n    \"SelfSelectedStoreWD\": 0,\r\n    \"SelfSelectedStoreBL\": 0,\r\n    \"SelfSelectedStoreHvy\": 0,\r\n    \"SelfSelectedStoreFYM\": 0,\r\n    \"AccountPin\": \"4567\",\r\n    \"InvalidPinAttempts\": 0,\r\n    \"PinLockout\": false,\r\n    \"AccountPassword\": \"Password1\",\r\n    \"InvalidPasswordAttempts\": 0,\r\n    \"PushNotificationOptOutStatus\": false,\r\n    \"SMSAuthorizationCode\": null,\r\n    \"SMSOptOutStatus\": false,\r\n    \"SMSPreEnrollmentMessageCount\": 0,\r\n    \"EmailOptOutStatus\": true,\r\n    \"TermsAndConditionsAccepted\": true,\r\n    \"PIISentToExcentus\": null,\r\n    \"GAGSwapDate\": \"0001-01-01T00:00:00\",\r\n    \"GAGSwapStore\": 0,\r\n    \"EMECustomerCareCenter\": false,\r\n    \"EMECustomerCareCenterSR\": false,\r\n    \"EMECS\": false,\r\n    \"EMECSSR\": false,\r\n    \"EMEEmployeeRetired\": false,\r\n    \"EMEEmployeeRetiredSR\": false,\r\n    \"EMECityWide\": false,\r\n    \"EMECityWideSR\": false,\r\n    \"WalletId\": null,\r\n    \"BabyClubWD\": false,\r\n    \"BabyClubBL\": false,\r\n    \"BabyClubHvy\": false,\r\n    \"BabyClubFYM\": false,\r\n    \"CustomerCRC\": [\r\n        {\r\n            \"MemberId\": \"\",\r\n            \"CrcId\": \"44193333303\",\r\n            \"ChainId\": \"3\",\r\n            \"EnrollmentLocId\": 0,\r\n            \"SeniorDiscount\": false,\r\n            \"TaxExempt\": false,\r\n            \"LastUpdateDate\": \"2020-07-29T08:49:02.673135-04:00\",\r\n            \"LastUpdateSource\": \"Mobile\"\r\n        }\r\n    ],\r\n    \"CustomerAddress\": null,\r\n    \"LastUpdateDate\": \"2020-07-29T08:49:02.671951-04:00\",\r\n    \"LastUpdateSource\": \"Mobile\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{api-base}}/Customer/Save?savePin=false&savePassword=false&returnHydratedObject=false&saveCustomerInAzure=false",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Customer",
+						"Save"
+					],
+					"query": [{
+							"key": "savePin",
+							"value": "false"
+						},
+						{
+							"key": "savePassword",
+							"value": "false"
+						},
+						{
+							"key": "returnHydratedObject",
+							"value": "false"
+						},
+						{
+							"key": "saveCustomerInAzure",
+							"value": "false"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "OmniProcessRedemptionV3",
+			"request": {
+				"method": "POST",
+				"body": {
+					"mode": "raw",
+					"raw": "{\"OfferID\":\"2012\",\"OfferDescription\":\"ONLINESHIPT_BASE_ISSOFFER\",\"CRC\":\"48111508788\",\"Store\":\"2366\",\"Points\":166,\"UserId\":\"EDW\",\"TransmitDate\":\"10\/23\/2022 12:00:00 AM\",\"TicketNumber\":\"30930143\",\"TicketDescription\":\"Instacart_EDW_22_10_23\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{api-base}}/Omni/ProcessRedemptionV3",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Omni",
+						"ProcessRedemptionV3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "OmniGetPointRemediation",
+			"request": {
+				"method": "POST",
+				"body": {
+					"mode": "raw",
+					"raw": "{\"OfferID\":\"2012\",\"OfferDescription\":\"ONLINESHIPT_BASE_ISSOFFER\",\"CRC\":\"48111508788\",\"Store\":\"2366\",\"Points\":166,\"UserId\":\"EDW\",\"TransmitDate\":\"10\/23\/2022 12:00:00 AM\",\"TicketNumber\":\"30930143\",\"TicketDescription\":\"Instacart_EDW_22_10_23\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{api-base}}/Omni/GetPointRemediation",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Omni",
+						"GetPointRemediation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ClubsGetBabyClubInfo",
+			"request": {
+				"method": "GET",
+				"url": {
+					"raw": "https://{{api-base}}/Clubs/GetBabyClubInfo?memberId=SEGQA0000005273961",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Clubs",
+						"GetBabyClubInfo"
+					],
+					"query": [{
+						"key": "memberId",
+						"value": "SEGQA0000005273961"
+					}]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ClubsSaveBabyClubInfo",
+			"request": {
+				"method": "POST",
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"memberId\": \"SEGQA0000005273961\",\r\n\"babyClubFlag\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{api-base}}/Clubs/SaveBabyClubInfo",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Clubs",
+						"SaveBabyClubInfo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ClubsGetPetClubInfo",
+			"request": {
+				"method": "GET",
+				"url": {
+					"raw": "https://{{api-base}}/Clubs/GetPetClubInfo?memberId=SEGQA0000005273961",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Clubs",
+						"GetPetClubInfo"
+					],
+					"query": [{
+						"key": "memberId",
+						"value": "SEGQA0000005273961"
+					}]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ClubsSavePetClubInfo",
+			"request": {
+				"method": "POST",
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"memberId\": \"SEGQA0000005273961\",\r\n\"petClubFlag\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{api-base}}/Clubs/SavePetClubInfo",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Clubs",
+						"SavePetClubInfo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ClubsGetPetTypes",
+			"request": {
+				"method": "GET",
+				"url": {
+					"raw": "https://{{api-base}}/Clubs/GetPetTypes?petType=ALL",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Clubs",
+						"GetPetTypes"
+					],
+					"query": [{
+						"key": "petType",
+						"value": "ALL"
+					}]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ClubsSavePetTypeInfo",
+			"request": {
+				"method": "POST",
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"petTypeInfo\": [\r\n    {\r\n      \"petTypeName\": \"Fish\",\r\n      \"isActive\": true,\r\n      \"createdDate\": \"2021-05-07T02:46:07+00:00\",\r\n      \"createdSource\": \"Web\",\r\n      \"lastUpdateDt\": \"2021-05-07T02:46:07.663+00:00\",\r\n      \"lastUpdatedSource\": \"Web\"\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{api-base}}/Clubs/SavePetTypeInfo",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Clubs",
+						"SavePetTypeInfo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ValidatePasswordV2",
+			"request": {
+				"method": "POST",
+				"header": [{
+					"key": "Ocp-Apim-Subscription-Key",
+					"value": "{{apim-sub-key}}",
+					"type": "text"
+				}],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"Alias\":\"ajil.jose@claysys.com\",\"AliasType\":4,\"PinPassword\":\"Always#Login37\",\"Source\":\"Web\",\"DeviceId\":\"dddddddd-dddd-dddd-dddd-dddddd023014\",\"AppCode\":\"023014\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{api-base}}/Customer/ValidatePasswordV2",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Customer",
+						"ValidatePasswordV2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ValidatePin",
+			"request": {
+				"method": "POST",
+				"header": [{
+					"key": "Ocp-Apim-Subscription-Key",
+					"value": "{{apim-sub-key}}",
+					"type": "text"
+				}],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"Alias\":\"9099000105\",\"AliasType\":3,\"BeforePinPassword\":\"1234\",\"AfterPinPassword\":\"1234\",\"MemberId\":\"SEGQA0000005274670\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{api-base}}/Customer/ValidatePin",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Customer",
+						"ValidatePin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CustomerGetPrimaryStore",
+			"request": {
+				"method": "GET",
+				"url": {
+					"raw": "https://{{api-base}}/Customer/GetPrimaryStore?memberId=SEGQA0000005274670&chainId=1",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Customer",
+						"GetPrimaryStore"
+					],
+					"query": [{
+							"key": "memberId",
+							"value": "SEGQA0000005274670"
+						},
+						{
+							"key": "chainId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CustomerGetEReceiptPreference",
+			"request": {
+				"method": "GET",
+				"url": {
+					"raw": "https://{{api-base}}/Customer/GetPrimaryStore?memberId=SEGQA0000005274670",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Customer",
+						"GetEReceiptPreference"
+					],
+					"query": [{
+						"key": "memberId",
+						"value": "SEGQA0000005274670"
+					}]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CustomerGetPreference",
+			"request": {
+				"method": "GET",
+				"url": {
+					"raw": "https://{{api-base}}/Customer/GetPreference?memberId=SEGQA0000005274670&chainId=1",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Customer",
+						"GetPreference"
+					],
+					"query": [{
+							"key": "memberId",
+							"value": "SEGQA0000005274670"
+						},
+						{
+							"key": "chainId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CustomerDeletePii",
+			"request": {
+				"method": "DELETE",
+				"url": {
+					"raw": "https://{{api-base}}/Customer/DeletePii?memberId=SEGQA0000005345549",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Customer",
+						"DeletePii"
+					],
+					"query": [{
+						"key": "memberId",
+						"value": "SEGQA0000005345549"
+					}]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CustomerSaveEReceiptPreference",
+			"request": {
+				"method": "POST",
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"memberId\": \"SEGQA0000005274670\",\r\n\"eReceiptEmailOptInStatus\": false,\r\n\"eReceiptPaperLessOptInStatus\": false,\r\n\"eReceiptTutorialEnabled\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{api-base}}/Customer/SaveEReceiptPreference",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Customer",
+						"SaveEReceiptPreference"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CustomerSavePreference",
+			"request": {
+				"method": "POST",
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"memberId\": \"SEGQA0000005274670\",\r\n  \"banner\": \"WD\",\r\n  \"interestDairyFree\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{api-base}}/Customer/SavePreference",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Customer",
+						"SavePreference"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SendAuthorizationCodeToCustomer",
+			"request": {
+				"method": "POST",
+				"header": [{
+					"key": "Ocp-Apim-Subscription-Key",
+					"type": "text",
+					"value": "{{apim-sub-key}}"
+				}],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"CrcId\":null,\"OmniId\":null,\"MemberId\":\"SEGQA0000005323277\",\"FirstName\":null,\"LastName\":null,\"AddressLine1\":null,\"City\":null,\"State\":null,\"Zipcode\":null,\"MobilePhoneNumber\":null,\"EmailAddress\":null,\"MaxNumberOfReturnedResults\":0}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{api-base}}/Customer/SendAuthorizationCodeToCustomer?appCode=003014&resetPassword=False&sendSMS=False&sendEmail=True&templateType=AccountUpdated&source=Web",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Customer",
+						"SendAuthorizationCodeToCustomer"
+					],
+					"query": [{
+							"key": "appCode",
+							"value": "003014"
+						},
+						{
+							"key": "resetPassword",
+							"value": "False"
+						},
+						{
+							"key": "sendSMS",
+							"value": "False"
+						},
+						{
+							"key": "sendEmail",
+							"value": "True"
+						},
+						{
+							"key": "templateType",
+							"value": "AccountUpdated"
+						},
+						{
+							"key": "source",
+							"value": "Web"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CustomerSearchTruncate",
+			"request": {
+				"method": "POST",
+				"header": [{
+					"key": "Ocp-Apim-Subscription-Key",
+					"type": "text",
+					"value": "{{apim-sub-key}}"
+				}],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"EmailAddress\": \"Testhytest3335y@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{api-base}}/Customer/CustomerSearchTruncate",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Customer",
+						"CustomerSearchTruncate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetCustomerRecord",
+			"request": {
+				"method": "POST",
+				"header": [{
+					"key": "Ocp-Apim-Subscription-Key",
+					"value": "{{apim-sub-key}}",
+					"type": "text"
+				}],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"OmniId\":\"7221180201287638\",\"MaxNumberOfReturnedResults\":0}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{api-base}}/Customer/GetCustomerRecord",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Customer",
+						"GetCustomerRecord"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search",
+			"request": {
+				"method": "POST",
+				"header": [{
+					"key": "Ocp-Apim-Subscription-Key",
+					"value": "{{apim-sub-key}}",
+					"type": "text"
+				}],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"MemberId\":\"SEGQA0000005274670\",\"MaxNumberOfReturnedResults\":0}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{api-base}}/Customer/Search",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Customer",
+						"Search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CustomerSearchForCRC",
+			"request": {
+				"method": "POST",
+				"header": [{
+					"key": "Ocp-Apim-Subscription-Key",
+					"type": "text",
+					"value": "{{apim-sub-key}}"
+				}],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"PhoneNumber\": \"8004243100\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{api-base}}/Customer/CustomerSearchForCRC",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Customer",
+						"CustomerSearchForCRC"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "OmniInsertPointRemediations",
+			"request": {
+				"method": "POST",
+				"header": [{
+					"key": "Ocp-Apim-Subscription-Key",
+					"type": "text",
+					"value": "{{apim-sub-key}}"
+				}],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"OfferID\": \"2012\",\r\n \"CRC\": \"48111508788\",\r\n \"status\": \"\",\r\n \"Store\": \"2366\",\r\n \"Points\": 148,\r\n \"ExpDate\": \"1753-01-01T12:00:00+00:00\",\r\n \"RecordType\": null,\r\n \"UserId\": \"EDW\",\r\n \"CustomerServiceTicket\": {\r\n \"TicketNumber\": \"30930143\",\r\n \"TicketDate\": \"1753-01-01T12:00:00+00:00\",\r\n \"Description\": \"Instacart_EDW_22_10_23\",\r\n}\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{api-base}}/Omni/InsertPointRemediations",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Omni",
+						"InsertPointRemediations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "OmniCheckDocumentExist",
+			"request": {
+				"method": "POST",
+				"header": [{
+					"key": "Ocp-Apim-Subscription-Key",
+					"type": "text",
+					"value": "{{apim-sub-key}}"
+				}],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"documentName\": \"Test Document\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{api-base}}/Omni/CheckDocumentExist",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Omni",
+						"CheckDocumentExist"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

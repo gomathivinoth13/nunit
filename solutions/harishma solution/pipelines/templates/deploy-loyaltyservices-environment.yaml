@@ -1,0 +1,63 @@
+parameters:
+# stage_name - (Optional) The name of the stage, so that it can be referenced elsewhere (eg for dependsOn property). 
+# Defaults to 'Deploy_Environment'
+- name: stage_name
+  type: string
+  default: 'Deploy_Environment'
+# depends_on - (Optional) The array of stages that this stage depends on. Default is that this stage does not depend on 
+# any other stage. However, since this is a deployment stage, you'll probably want to specify a build stage that
+# this stage depends on.
+- name: depends_on
+  type: object
+  default: []
+# environment_name - (Required) The environment to deploy to. Can be used to introduce a manual gate for approval for stage to proceed.
+- name: environment_name
+  type: string
+# AzureServiceConnection - (Required) The name of the service connection that connects Azure DevOps
+# to Azure Resource Manager. Go to Service Connections in Azure DevOps to setup the connection and assign permissions
+# for pipelines to access it.
+- name: AzureServiceConnection
+  type: string
+# BootstrapAzureRegion - (Optional) The azure region where the bootstrapped terraform state file is to be stored 
+# for all deployments to an environment.
+- name: BootstrapAzureRegion
+  type: string
+  default: ''
+# AzureRegion - (Required) The azure region where the environment will be deployed.
+- name: AzureRegion
+  type: string
+- name: SubscriptionId
+  type: string
+# Environment - (Required) The name of environment to deploy
+- name: Environment
+  type: string
+# OrganizationalPrefix - (Required) The organizational prefix to seed into globaly unique names for resources.
+- name: OrganizationalPrefix
+  type: string
+- name: TerraformBackingStoreContainerName
+  type: string
+
+stages:
+- stage: ${{ parameters.stage_name }}
+  dependsOn: ${{ parameters.depends_on }}
+  variables:
+  - ${{ if eq(parameters.BootstrapAzureRegion, '') }}:
+    - name: bootstrapAzureRegion
+      value: ${{ parameters.AzureRegion }}
+  - ${{ if not(eq(parameters.BootstrapAzureRegion, '')) }}:
+    - name: bootstrapAzureRegion
+      value: ${{ parameters.BootstrapAzureRegion }}
+  pool:
+    vmImage: $(poolImage)
+  jobs:
+  - template: ./deploy-loyaltyservices-azure.yaml
+    parameters:
+      depends_on: []
+      environment_name: ${{ parameters.environment_name }}
+      AzureServiceConnection: ${{parameters.AzureServiceConnection}}
+      BootstrapAzureRegion: $(bootstrapAzureRegion)
+      AzureRegion: ${{parameters.AzureRegion}}
+      SubscriptionId: ${{parameters.SubscriptionId}}
+      Environment: ${{parameters.Environment}}
+      OrganizationalPrefix: ${{parameters.OrganizationalPrefix}}
+      TerraformBackingStoreContainerName: ${{parameters.TerraformBackingStoreContainerName}}

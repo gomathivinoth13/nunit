@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "removeComments": false,
+    "sourceMap": true,
+    "SuccessMessage": "Data Inserted Successfully to SFMC",
+   
+    "ErrorMessage" :
+    "Error Occured While inserting Value",
+    "NullErrorMessage":
+    "Input was null, Can't process the request",
+    "RequestEntityTooLargeMessage":
+    "RequestEntity is too large ,Can't process the request",
+    "DataBaseErrorMessage":
+    "Error while inserting data",
+    "DataBaseSuccessMessage":
+    "Event log data  successfully inserted to Database",
+    "AccountIdNullErrorMessage":
+    "AccountID is null, Can't insert Value",
+     "ConfigValueNullErrorMessage":
+    "Configuration value SEG_Key is missing",
+    "target": "es5"
+  },
+  "exclude": [
+    "node_modules",
+    "wwwroot"
+  ]
+}

@@ -1,0 +1,15 @@
+# install-dotnet.yaml
+# Run Dotnet Tool Installer
+
+parameters:
+- name: dotnetcoreVersion
+  type: string
+  default: "3.1.107"
+
+
+steps:
+- task: UseDotNet@2
+  displayName: 'Use .Net Core sdk ${{parameters.dotnetcoreVersion}}'
+  inputs:
+    version: ${{parameters.dotnetcoreVersion}}
+

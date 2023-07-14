@@ -1,0 +1,19 @@
+parameters:
+- name: AzureServiceConnection
+  type: string
+#- name: AzureRegion
+#  type: string
+#- name: SubscriptionId
+#  type: string
+- name: AppName
+  type: string
+
+steps:
+- task: AzureFunctionApp@1
+  displayName: "Azure Function App Deployment"
+  inputs:
+    azureSubscription: ${{parameters.AzureServiceConnection}}
+    appName: ${{parameters.AppName}}
+    appType: 'functionApp'
+    package: $(Pipeline.Workspace)/**/*.zip
+    deploymentMethod: runFromPackage

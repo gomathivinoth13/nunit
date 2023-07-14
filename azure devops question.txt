@@ -1,0 +1,49 @@
+Interview questions:
+
+1)API  :application program interface used to connect between the two appliation Example application a send request to fectch the 
+details from application b.so this requesting process will be callled API.
+
+
+2)Azure:azure is public cloud platform.and cloud service provider,ips(infrasture,platform ,software)
+it was introduced by microsoft in 2008.we can access our applications anywhere in the world.
+azure having their data center in more than 60 gegraphical region
+
+
+
+3)Devops:its not depend on any technology.used to manage project development life cycle.
+it will have different types of devops platform.
+
+
+
+3)azure devops:its not depend on any technology.project planning to end release everything will be automated in azure devops:
+
+components:
+
+board:project planning will be in 
+repository:used to save the code in azure(using git,tf)
+azure build pipeline(ci):whenever the changes happending in the code once if we are set trigger point ,
+it will build automatically  help of AGENT(secondary component in build pipeline) using YAML script.
+
+artifacts:save the output.
+
+CD pipeline:contineous deployement
+
+
+
+4)azure service:
+
+i)application insight-used to  onitor the application
+ii)api management-usesd to provide the security for the published web api
+iii)azure storage:can easily access the data(blob,queue,table)
+iv)data factory:used to recive different type of format and process using pipeline deliver to the sender
+v)key vaults:used to maintain the application secrets.
+vi)resource group:the services which we are creating in azure that is called resource group,we can maintain the resources in group wise easily
+vii)redish cache:used to store the information instead of fecting directly data from the server,
+viii)cos mos db-non sql
+
+5)GIT:tool for version control.
+
+6)yaml :its readable and writtable format.data seralization language..
+
+7)terraform:its free open soucre tool,hcl (hashicorp configuration language),automate the infrasturcture building, changing
+

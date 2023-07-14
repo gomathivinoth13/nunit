@@ -1,0 +1,98 @@
+parameters:
+# AzureServiceConnection - (Required) The name of the service connection that connects Azure DevOps
+# to Azure Resource Manager. Go to Service Connections in Azure DevOps to setup the connection and assign permissions
+# for pipelines to access it.
+- name: AzureServiceConnection
+  type: string
+- name: APIMResourceGroupName
+  type: string
+- name: APIMName
+  type: string
+- name: APIProducts
+  type: string
+- name: APIBackendUrl
+  type: string
+- name: APITaskDisplayName
+  type: string
+- name: APIMAPIName
+  type: string
+- name: APIMBackendId
+  type: string
+
+# WorkingPath - (Optional) Working path root for Terraform Infrastructure files for use when working with multi-checkout of repos
+
+- name: WorkingPath
+  type: string
+  default: $(System.DefaultWorkingDirectory)
+
+steps:
+
+#     DEBUGGING
+# - pwsh:  Write-Output "APIM Name -------------- ${{ parameters.APIMName }}"
+# - pwsh:  Write-Output "API Products ----------- ${{ parameters.APIProducts }}"
+# - pwsh:  Write-Output "API Backend Url -------- ${{ parameters.APIBackendUrl }}"
+# - pwsh:  Write-Output "API Task Display Name -- ${{ parameters.APITaskDisplayName }}"
+# - pwsh:  Write-Output "APIM API Name ---------- ${{ parameters.APIMAPIName }}"
+# - pwsh:  Write-Output "APIM Backend Ide ------- ${{ parameters.APIMBackendId }}"
+
+# - pwsh: |
+#     start-sleep -seconds 30
+#   displayName: 'Waiting for ${{parameters.APITaskDisplayName}} API Backend Url completion'
+
+- pwsh: |
+    $StatusCode = 0
+
+    do{
+    try
+    {
+        Write-Output "Searching for ${{ parameters.APIBackendUrl }}/openapi/v3.json..."
+        $Response = Invoke-WebRequest -Uri "${{ parameters.APIBackendUrl }}/openapi/v3.json" -TimeoutSec 30
+        #/openapi/v3.json" 
+        # This will only execute if the Invoke-WebRequest is successful.
+        $StatusCode = $Response.StatusCode
+    }
+    catch
+    {
+        $StatusCode = $_.Exception.Response.StatusCode.value__
+        Write-Output "Not available yet"
+        Start-Sleep 15
+    }
+    }
+    while($StatusCode -ne 200)
+  displayName: 'Waiting for ${{parameters.APITaskDisplayName}} API Backend Url completion'
+
+
+
+- task: stephane-eyskens.apim.apim.apim@5
+  displayName: 'API Management - Create/Update ${{parameters.APITaskDisplayName}} API'
+  inputs:
+    ConnectedServiceNameARM: '${{parameters.AzureServiceConnection}}'
+    ResourceGroupName: '${{parameters.APIMResourceGroupName}}'
+    ApiPortalName: '${{parameters.APIMName}}'
+    OpenAPISpec: v3
+    UseProductCreatedByPreviousTask: false
+    product1: |
+      ${{parameters.APIProducts}}
+    SwaggerPicker: Url
+    swaggerlocation: '${{ parameters.APIBackendUrl }}/openapi/v3.json'
+    targetapi: '${{parameters.APIMAPIName}}' #can contain only letters, numbers, and hyphens. The first and last character must be a letter or a number.
+    NewRevision: false
+    pathapi: 'EagleEyeServiceWebAPI'
+    TemplateSelector: Custom
+    Custom: |
+     <policies>
+     	<inbound>
+     		<base />
+            <set-backend-service backend-id="${{parameters.APIMBackendId}}" />
+     	</inbound>
+     	<backend>
+     		<base />
+     	</backend>
+     	<outbound>
+     		<base />
+     	</outbound>
+     	<on-error>
+     		<base />
+     	</on-error>
+     </policies>
+    MicrosoftApiManagementAPIVersion: '2018-06-01-preview'

@@ -1,0 +1,63 @@
+﻿parameters:
+- name: AzureServiceConnection
+  type: string
+- name: AzureRegion
+  type: string
+- name: SubscriptionId
+  type: string
+- name: Environment
+  type: string
+- name: Action
+  type: string
+  default: preview
+  values:
+  - preview
+  - deploy
+- name: TerraformBackingStoreResourceGroupName
+  type: string
+- name: TerraformBackingStoreStorageAccountName
+  type: string
+- name: TerraformBackingStoreContainerName
+  type: string
+- name: TerraformBackingStoreStateFileName
+  type: string
+  #Example 'omnichannel-core/terraform.tfstate'
+  
+
+steps:
+- task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
+  displayName: 'Install Terraform'
+  inputs:
+    terraformVersion: 0.12.24
+- task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
+  displayName: 'Terraform : azurerm init'
+  inputs:
+    workingDirectory: $(System.DefaultWorkingDirectory)\iac\realtimepoint
+    backendServiceArm: '${{parameters.AzureServiceConnection}}'
+    backendAzureRmResourceGroupName: ${{parameters.TerraformBackingStoreResourceGroupName}}
+    backendAzureRmStorageAccountName: ${{parameters.TerraformBackingStoreStorageAccountName}}
+    backendAzureRmContainerName: ${{parameters.TerraformBackingStoreContainerName}}
+    backendAzureRmKey: ${{parameters.TerraformBackingStoreStateFileName}}
+- ${{ if eq(parameters.Action, 'preview') }}:
+  - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
+    displayName: 'Terraform : azurerm preview'
+    inputs:
+      command: plan
+      workingDirectory: $(System.DefaultWorkingDirectory)\iac\realtimepoint
+      environmentServiceNameAzureRM: '${{parameters.AzureServiceConnection}}'
+- ${{ if eq(parameters.Action, 'deploy') }}:
+  - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
+    name: terraformApply
+    displayName: 'Terraform : azurerm apply'
+    timeoutInMinutes: 120
+    inputs:
+      command: apply
+      workingDirectory: $(System.DefaultWorkingDirectory)\iac\realtimepoint
+      commandOptions: '-auto-approve'
+      environmentServiceNameAzureRM: '${{parameters.AzureServiceConnection}}'
+  - task: PowerShell@2
+    displayName: "Parsing outputs from Terraform deployment to pipeline variables"
+    inputs:
+      targetType: 'filePath'
+      filePath: '$(System.DefaultWorkingDirectory)/IaC/Convert-TerraformOutput.ps1'
+      arguments: "-TerraformOutputString (Get-Content $(terraformApply.jsonOutputVariablesPath) -Raw) -Verbose"

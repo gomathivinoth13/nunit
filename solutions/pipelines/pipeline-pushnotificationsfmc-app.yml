@@ -1,0 +1,51 @@
+trigger: none
+
+variables:
+    # ========================================================================
+    #                          Mandatory variables 
+    # ========================================================================
+  - name: poolImage
+    value: 'windows-latest'
+  - name: PrimaryRegion
+    value: 'eastus'
+  - name: DevSubscriptionId
+    value: 'sc-blhdmapi-rg-rg-loyaltyapi-dev'
+  - name: QaSubscriptionId
+    value: 'sc-blhdmapi-rg-loyaltyapi-qa'
+  - name: ProdSubscriptionId
+    value: 'sc-blhdmapi-rg-loyaltyapi-prod'
+    
+stages:
+- template: ./templates/buildTest.yaml
+  parameters:
+    solution_filename: '**/*.sln'
+
+- template: ./templates/deployEnv.yaml
+  parameters:
+    stage_name: Dev_Deploy_PushNotificationSFMC_Func_App
+    depends_on: ['BuildTest']
+    environment_name: 'OmniChannel-Dev'
+    AzureServiceConnection: $(DevSubscriptionId)      
+    Environment: 'dev'
+    AppName: 'Func-MboNotificationSFMC-Dev'
+ 
+  
+- template: ./templates/deployEnv.yaml
+  parameters:
+    stage_name: QA_Deploy_PushNotificationSFMC_Func_App    
+    depends_on: ['BuildTest','Dev_Deploy_PushNotificationSFMC_Func_App']
+    environment_name: 'OmniChannel-QA'
+    AzureServiceConnection: $(QaSubscriptionId)
+    Environment: 'qa'
+    AppName: 'Func-MboNotificationSFMC-qa'
+    
+  
+- template: ./templates/deployEnv.yaml
+  parameters:
+    stage_name: Prod_Deploy_AkanaAuthService_Func_App
+    depends_on: ['BuildTest','QA_Deploy_PushNotificationSFMC_Func_App']
+    environment_name: 'OmniChannel-Prod'
+    AzureServiceConnection: $(ProdSubscriptionId)      
+    Environment: 'prod'
+    AppName: 'Func-MboNotificationSFMC-prod'
+      

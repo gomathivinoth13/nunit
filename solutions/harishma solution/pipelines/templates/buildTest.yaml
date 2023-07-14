@@ -1,0 +1,28 @@
+parameters:
+# solution_filename - (Required) The relative path to the solution file that should be built
+- name: solution_filename
+  type: string
+  default: '**/*.sln'
+
+stages:
+- stage: BuildTest
+  displayName: 'Build & Validation Stage'
+  variables:
+    buildPlatform: 'Any CPU'
+    buildConfiguration: 'Release'
+    solution: ${{parameters.solution_filename}}
+  jobs:
+  - job: Build
+    displayName: Build Full Solution 
+    dependsOn: []
+    pool:
+      vmImage: $(poolImage)
+    steps:
+    - template: ./ci-and-pr.yaml
+      parameters:
+        solution_filename: $(solution)
+        solution_build_configuration: $(buildConfiguration)
+    - task: PublishPipelineArtifact@1
+      inputs:
+        path: '$(Build.ArtifactStagingDirectory)'
+        artifact: 'drop'

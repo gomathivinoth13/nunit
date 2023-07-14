@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EagleEyeFunctionApp</name>
+    </assembly>
+    <members>
+        <member name="M:EagleEyeFunctionApp.Controllers.EagleEyeController.GetAllOffersCache(Microsoft.AspNetCore.Http.HttpRequest,Microsoft.Azure.WebJobs.ExecutionContext)">
+            <summary>
+            --get all offers from azure redis cache 
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EagleEyeFunctionApp.Controllers.EagleEyeController.GetAllMBOCache(Microsoft.AspNetCore.Http.HttpRequest,Microsoft.Azure.WebJobs.ExecutionContext)">
+            <summary>
+            --get all MBO  
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EagleEyeFunctionApp.Controllers.EagleEyeController.GetAllOffersCacheSFMC(Microsoft.AspNetCore.Http.HttpRequest,Microsoft.Azure.WebJobs.ExecutionContext)">
+            <summary>
+            --get all offers from azure redis cache 
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EagleEyeFunctionApp.Controllers.EagleEyeController.GetWalletAccountsCacheSFMC(Microsoft.AspNetCore.Http.HttpRequest,Microsoft.Azure.WebJobs.ExecutionContext)">
+            <summary>
+            --get all offers from azure redis cache 
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EagleEyeFunctionApp.Controllers.EagleEyeController.SetWalletAccountStateToLoaded(Microsoft.AspNetCore.Http.HttpRequest,Microsoft.Azure.WebJobs.ExecutionContext)">
+            <summary>
+            
+            </summary>
+            <param name="request"></param>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:EagleEyeFunctionApp.Controllers.EagleEyeController.GetWalletAccountsCache(Microsoft.AspNetCore.Http.HttpRequest,Microsoft.Azure.WebJobs.ExecutionContext)" -->
+        <member name="M:EagleEyeFunctionApp.Controllers.EagleEyeController.GetCampaignIdCache(Microsoft.AspNetCore.Http.HttpRequest,Microsoft.Azure.WebJobs.ExecutionContext)">
+            <summary>
+            
+            </summary>
+            <param name="campaignId"></param>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EagleEyeFunctionApp.Controllers.EagleEyeController.GetWalletTransactions(Microsoft.AspNetCore.Http.HttpRequest,Microsoft.Azure.WebJobs.ExecutionContext)">
+            <summary>
+            
+            </summary>
+            <param name="request"></param>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EagleEyeFunctionApp.Controllers.EagleEyeController.GetWalletAccountPoints(Microsoft.AspNetCore.Http.HttpRequest,Microsoft.Azure.WebJobs.ExecutionContext)">
+            <summary>
+            
+            </summary>
+            <param name="request"></param>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="T:EagleEyeFunctionApp.Startup">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:EagleEyeFunctionApp.Startup.Configure(Microsoft.Azure.Functions.Extensions.DependencyInjection.IFunctionsHostBuilder)">
+            <summary>
+            
+            </summary>
+            <param name="builder"></param>
+        </member>
+    </members>
+</doc>

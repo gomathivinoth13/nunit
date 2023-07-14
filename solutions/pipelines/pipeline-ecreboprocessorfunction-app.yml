@@ -1,0 +1,79 @@
+trigger:
+    branches:
+      include:
+      - main
+    paths:
+      exclude:
+      - pipelines/*
+  
+resources:
+  repositories:
+  - repository: commonTerraform
+    type: git
+    name: Common.Terraform
+  - repository: commonPipeline
+    type: git
+    name: Common.Pipelines
+
+variables:
+    # ========================================================================
+    #                          Mandatory variables 
+    # ========================================================================
+  - name: poolImage
+    value: 'windows-latest'
+  - name: PrimaryRegion
+    value: 'eastus'
+  - name: NonProdSubscriptionId
+    value: '490b96bd-0560-4953-872d-6ed5e1147222'
+  - name: NonProdAzureRMConnection
+    value: 'SEGDEVOPS Bi-Lo Holdings DM API Dev'
+  - name: ProductionSubscriptionId
+    value: '00966c0f-e5c0-4ae2-954f-a96b6a9af123'
+  - name: ProductionAzureRMConnection
+    value: 'SEGDEVOPS Bi-Lo Holdings DM API PROD'
+  - name: TerraformStateContainer
+    value: 'ecreboprocessor'
+  #sets the terraform version for use across the entire pipeline
+  - name: terraformVersion 
+    value: 0.14.8
+    
+stages:
+- template: ./templates/buildTest.yaml
+  parameters:
+    solution_filename: '**/*.sln'
+
+- template: ./templates/deployEnv.yaml
+  parameters:
+    stage_name: Dev_Deploy_EcreboProcessor_Func_App
+    depends_on: ['BuildTest']
+    environment_name: 'OmniChannel-Dev'
+    AzureServiceConnection: $(NonProdAzureRMConnection)      
+    AzureRegion: eastus
+    SubscriptionId: $(NonProdSubscriptionId)
+    Environment: 'dev'
+    OrganizationalPrefix: 'seg'
+    TerraformBackingStoreContainerName: '$(TerraformStateContainer)'
+  
+- template: ./templates/deployEnv.yaml
+  parameters:
+    stage_name: QA_Deploy_EcreboProcessor_Func_App
+    depends_on: ['BuildTest','Dev_Deploy_EcreboProcessor_Func_App']
+    environment_name: 'OmniChannel-QA'
+    AzureServiceConnection: $(NonProdAzureRMConnection)      
+    AzureRegion: eastus
+    SubscriptionId: $(NonProdSubscriptionId)
+    Environment: 'qa'
+    OrganizationalPrefix: 'seg'
+    TerraformBackingStoreContainerName: '$(TerraformStateContainer)'
+  
+- template: ./templates/deployEnv.yaml
+  parameters:
+    stage_name: Prod_Deploy_EcreboProcessor_Func_App
+    depends_on: ['BuildTest','QA_Deploy_EcreboProcessor_Func_App']
+    environment_name: 'OmniChannel-Prod'
+    AzureServiceConnection: $(ProductionAzureRMConnection)      
+    AzureRegion: eastus
+    SubscriptionId: $(ProductionSubscriptionId)
+    Environment: 'prod'
+    OrganizationalPrefix: 'seg'
+    TerraformBackingStoreContainerName: '$(TerraformStateContainer)'

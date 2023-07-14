@@ -1,0 +1,467 @@
+{
+	"info": {
+		"_postman_id": "5868e8a5-805d-47c3-a535-d96948e5afdb",
+		"name": "APIM AzureCustomerWebsite",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "SaveCustomerInAzureEE",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"type": "text",
+						"value": "{{apim-sub-key}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n      \"memberId\": \"SEGQA0000005274776\",\r\n      \"firstName\": \"ss\",\r\n      \"lastName\": \"ss\",\r\n      \"salutation\": \"NA\",\r\n      \"birthDate\": \"1984-11-12T00:00:00-05:00\",\r\n      \"genderCode\": \"F\",\r\n      \"emailAddress\": \"couponsqa@mail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{api-base}}/Customer/SaveCustomerInAzureEE",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Customer",
+						"SaveCustomerInAzureEE"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateStoreInAzureEE",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "{{apim-sub-key}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{api-base}}/Customer/UpdateStoreInAzureEE?storeId=190&memberId=SEGQA0000005309271&chainId=1&lastUpdatedSource=Mobile",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Customer",
+						"UpdateStoreInAzureEE"
+					],
+					"query": [
+						{
+							"key": "storeId",
+							"value": "190"
+						},
+						{
+							"key": "memberId",
+							"value": "SEGQA0000005309271"
+						},
+						{
+							"key": "chainId",
+							"value": "1"
+						},
+						{
+							"key": "lastUpdatedSource",
+							"value": "Mobile"
+						}
+					]
+				}
+			},
+			"response": []
+		},		
+		{
+			"name": "ValidatePasswordEE",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"type": "text",
+						"value": "{{apim-sub-key}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"Alias\":\"Andydalton@seg.com\",\"AliasType\":4,\"PinPassword\":\"Password1\",\"Source\":\"Web\",\"DeviceId\":\"qqqqqqqq-qqqq-qqqq-qqqq-qqqqqq033014\",\"AppCode\":\"033014\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{api-base}}/Customer/ValidatePasswordEE",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Customer",
+						"ValidatePasswordEE"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetEnrollmentOfferEE",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "{{apim-sub-key}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{api-base}}/Utility/GetEnrollmentOfferEE?chainId=1",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Utility",
+						"GetEnrollmentOfferEE"
+					],
+					"query": [
+						{
+							"key": "chainId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},		
+		{
+			"name": "SendAuthorizationCodeToCustomer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"type": "text",
+						"value": "{{apim-sub-key}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"CrcId\":null,\"OmniId\":null,\"MemberId\":\"SEGQA0000005323277\",\"FirstName\":null,\"LastName\":null,\"AddressLine1\":null,\"City\":null,\"State\":null,\"Zipcode\":null,\"MobilePhoneNumber\":null,\"EmailAddress\":null,\"MaxNumberOfReturnedResults\":0}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{api-base}}/Customer/SendAuthorizationCodeToCustomer",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Customer",
+						"SendAuthorizationCodeToCustomer"
+					],
+					"query": [
+						{
+							"key": "appCode",
+							"value": "003014"
+						},
+						{
+							"key": "resetPassword",
+							"value": "False"
+						},
+						{
+							"key": "sendSMS",
+							"value": "False"
+						},
+						{
+							"key": "sendEmail",
+							"value": "True"
+						},
+						{
+							"key": "templateType",
+							"value": "AccountUpdated"
+						},
+						{
+							"key": "source",
+							"value": "Web"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CheckCustomerStatus",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "{{apim-sub-key}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{api-base}}/Customer/CheckCustomerStatus?loyaltyNumber=8185243658",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Customer",
+						"CheckCustomerStatus"
+					],
+					"query": [
+						{
+							"key": "loyaltyNumber",
+							"value": "8185243658"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpsertBabyClub",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "{{apim-sub-key}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"memberId\":\"SEGQA0000005323314\",\"babyClubFlag\":true,\"childInfo\":[{\"childId\":1,\"firstName\":\"Ria\",\"middleInitial\":\"\",\"lastName\":\"\",\"birthDate\":\"2020-01-01\",\"expectedBabyIndicator\":\"N\",\"genderCode\":\"F\",\"deceasedIndicator\":\"\",\"specialNeedIndicator\":\"\",\"agedOutIndicator\":\"N\",\"lastUpdatedDate\":\"2021-06-09T04:26:03.1713419+00:00\",\"lastUpdatedSource\":\"Web\"}]}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{api-base}}/Customer/UpsertBabyClub",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Customer",
+						"UpsertBabyClub"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpsertPetClub",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "{{apim-sub-key}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"memberId\":\"SEGQA0000005323277\",\"petclubFlag\":true,\"petInfo\":[{\"petId\":\"ed619786-cd24-4b2f-a223-cadef9217101\",\"enrollmentBanner\":\"WD\",\"enrollmentDate\":\"2021-06-08T05:19:27+00:00\",\"enrollmentSource\":\"Web\",\"petName\":\"Tiger\",\"petTypeID\":\"8D22600F-0126-4B4C-A32D-3EA80D788482\",\"petTypeName\":\"Dog\",\"lastUpdatedDate\":\"2021-06-08T05:19:27+00:00\",\"lastUpdatedSource\":\"Web\"}]}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{api-base}}/Customer/UpsertPetClub",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Customer",
+						"UpsertPetClub"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SendAuthCodebyPhoneNumber",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "{{apim-sub-key}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"PhoneNumber\":\"8185243658\",\"AuthCode\":\"EAAAABFH7fJsCvXJcDnRDk5xZsazICbkAO9\/Vw7388JIAj8N\",\"ChainId\":\"1\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{api-base}}/Customer/SendAuthCodebyPhoneNumber",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Customer",
+						"SendAuthCodebyPhoneNumber"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetPreference",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "{{apim-sub-key}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://{{api-base}}/Customer/GetEnrollmentOfferEE?memberId=SEGQA0000005273286&chainId=1",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Customer",
+						"GetPreference"
+					],
+					"query": [
+						{
+							"key": "memberId",
+							"value": "SEGQA0000005308043"
+						},
+						{
+							"key": "chainId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SavePreference",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "{{apim-sub-key}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"memberId\":\"SEGQA0000005308043\",\"banner\":\"Harveys\",\"EmailWeeklyAds\":\"true\",\"EmailWeekendSale\":\"true\",\"EmailSurveys\":\"true\",\"EmailBirthdays\":\"true\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{api-base}}/Customer/SavePreference",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Customer",
+						"SavePreference"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CheckPassword",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Ocp-Apim-Subscription-Key",
+						"value": "{{apim-sub-key}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"EncryptedPassword\":\"4a3654913fb0d62706bd4578916c3fd6fbdef2828837df14ca687343478a728c\",\r\n\"CurrentPassword\":\"Password1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{api-base}}/Customer/CheckPassword",
+					"protocol": "https",
+					"host": [
+						"{{api-base}}"
+					],
+					"path": [
+						"Customer",
+						"CheckPassword"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

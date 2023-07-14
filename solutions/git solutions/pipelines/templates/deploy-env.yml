@@ -1,0 +1,138 @@
+parameters:
+- name: stage
+  type: string
+- name: dependsOn
+  type: object
+  default: []
+- name: environment
+  type: string
+- name: environmentName
+  type: string
+- name: applicationDisplayName
+  type: string
+- name: azureServiceConnection
+  type: string
+- name: bootstrapAzureRegion
+  type: string
+  default: ''
+- name: azureRegion
+  type: string
+- name: subscriptionId
+  type: string
+- name: deployAppToAzure
+  type: boolean
+
+stages:
+- stage: ${{ parameters.stage }}
+  displayName: ${{ parameters.environmentName }}
+  dependsOn: ${{ parameters.dependsOn }}
+  variables:
+    bootstrapAzureRegion: $[coalesce('${{ parameters.bootstrapAzureRegion }}', '${{ parameters.azureRegion }}')]
+    terraformBackingStoreResourceGroupName: $[format('{0}-{1}', variables.terraformBackingStoreResourceGroupPrefix, '${{ parameters.environment }}')]
+    terraformPlanName: $[format('{0}_{1}', variables.applicationName, '${{ parameters.environment }}')]
+    terraformVariables: $[format('-var="app_name={0}" -var="app_abbr={1}"', variables.applicationName, variables.applicationAbbr)]
+  jobs:
+  - job: plan
+    displayName: Run Plan for Deployment of ${{ parameters.applicationDisplayName }} to Azure
+    timeoutInMinutes: 130
+    steps:
+    - checkout: self
+      persistCredentials: true
+      path: self
+
+    - checkout: commonPipeline
+      persistCredentials: true
+      path: commonPipeline
+
+    - template: templates/bootstrap-infrastructure.yaml@commonPipeline
+      parameters:
+        AzureServiceConnection: ${{ parameters.azureServiceConnection }}
+        AzureRegion: $(bootstrapAzureRegion)
+        SubscriptionId: ${{ parameters.subscriptionId }}
+        Environment: ${{ parameters.environment }}
+        OrganizationalPrefix: $(organizationalPrefix)
+        TerraformBackingStoreResourceGroupName: $(terraformBackingStoreResourceGroupName)
+        TerraformBackingStoreContainerName: $(terraformBackingStoreContainerName)
+        WorkingPath: $(Agent.BuildDirectory)/commonPipeline
+
+    - template: templates/deploy-infrastructure.yaml@commonPipeline
+      parameters:
+        Action: preview
+        AzureServiceConnection: ${{ parameters.azureServiceConnection }}
+        AzureRegion: ${{ parameters.azureRegion }}
+        SubscriptionId: ${{ parameters.subscriptionId }}
+        Environment: ${{ parameters.environment }}
+        EnvironmentTier: ${{ parameters.environment }}
+        OrganizationalPrefix: $(organizationalPrefix)
+        TerraformBackingStoreResourceGroupName: $(terraformBackingStoreResourceGroupName)
+        TerraformBackingStoreResourceGroupLocation: $(bootstrapAzureRegion)
+        TerraformBackingStoreStorageAccountName: $(ArmOutputs.tfStateSAName)
+        TerraformBackingStoreContainerName: $(terraformBackingStoreContainerName)
+        TerraformBackingStoreStateFileName: $(terraformBackingStoreStateFileName)
+        TerraformPlanName: $(terraformPlanName)
+        WorkingPath: $(Agent.BuildDirectory)/self
+        AdditionalTerraformVariables: $(terraformVariables)
+
+  - job: waitForValidation
+    dependsOn: plan
+    variables:
+      planHasChanges: $[dependencies.plan.outputs['tfplan.TERRAFORM_PLAN_HAS_CHANGES']]
+    pool: server
+    timeoutInMinutes: 4320
+    steps:
+    - task: ManualValidation@0
+      timeoutInMinutes: 1440
+      condition: and(succeeded(), eq(variables.planHasChanges, true))
+      inputs:
+        instructions: Please validate the terraform plan configuration and resume
+
+  - deployment: deploy
+    displayName: Deploy ${{ parameters.applicationDisplayName }} to Azure
+    dependsOn: waitForValidation
+    environment: ${{ parameters.environmentName }}
+    timeoutInMinutes: 130
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: self
+            persistCredentials: true
+            path: self
+
+          - checkout: commonPipeline
+            persistCredentials: true
+            path: commonPipeline
+
+          - template: templates/bootstrap-infrastructure.yaml@commonPipeline
+            parameters:
+              AzureServiceConnection: ${{ parameters.azureServiceConnection }}
+              AzureRegion: $(bootstrapAzureRegion)
+              SubscriptionId: ${{ parameters.subscriptionId }}
+              Environment: ${{ parameters.environment }}
+              OrganizationalPrefix: $(organizationalPrefix)
+              TerraformBackingStoreResourceGroupName: $(terraformBackingStoreResourceGroupName)
+              TerraformBackingStoreContainerName: $(terraformBackingStoreContainerName)
+              WorkingPath: $(Agent.BuildDirectory)/commonPipeline
+
+          - template: templates/deploy-infrastructure.yaml@commonPipeline
+            parameters:
+              Action: deploy
+              AzureServiceConnection: ${{ parameters.azureServiceConnection }}
+              AzureRegion: ${{ parameters.azureRegion }}
+              SubscriptionId: ${{ parameters.subscriptionId }}
+              Environment: ${{ parameters.environment }}
+              EnvironmentTier: ${{ parameters.environment }}
+              OrganizationalPrefix: $(organizationalPrefix)
+              TerraformBackingStoreResourceGroupName: $(terraformBackingStoreResourceGroupName)
+              TerraformBackingStoreResourceGroupLocation: $(bootstrapAzureRegion)
+              TerraformBackingStoreStorageAccountName: $(ArmOutputs.tfStateSAName)
+              TerraformBackingStoreContainerName: $(terraformBackingStoreContainerName)
+              TerraformBackingStoreStateFileName: $(terraformBackingStoreStateFileName)
+              WorkingPath: $(Agent.BuildDirectory)/self
+              AdditionalTerraformVariables: $(terraformVariables)
+
+          - ${{ if eq(parameters.deployAppToAzure, true) }}:
+            - template: ./deploy-app.yml
+              parameters:
+                azureServiceConnection: ${{ parameters.azureServiceConnection }}
+                appName: $(TF_OUT_API_FUNCTION_APP_NAME)

@@ -1,0 +1,81 @@
+trigger:
+  branches:
+    include:
+    - master
+  paths:
+    exclude:
+    - pipelines/*
+
+resources:
+  pipelines:
+  - pipeline: loyaltyservicesazuredev
+    source: 'Loyalty Services (Azure-Web) - Dev'
+    branch: Dev
+  - pipeline: loyaltyservicesazureqa
+    source: 'Loyalty Services (Azure-Web) - QA'
+    branch: QA
+  - pipeline: loyaltyservicesazureprod
+    source: 'Loyalty Services (Azure-Web)'
+    branch: master
+  - pipeline: webjobprod
+    source: 'SEG.QueueExecutionEngineWorker - Master CI'
+    branch: master
+  - pipeline: webjobdev
+    source: 'SEG.QueueExecutionEngineWorker - Dev CI'
+    branch: Dev
+  - pipeline: webjobqa
+    source: 'SEG.QueueExecutionEngineWorker - QA CI'
+    branch: QA      
+  repositories:
+  - repository: commonTerraform
+    type: git
+    name: Common.Terraform
+  - repository: commonPipeline
+    type: git
+    name: Common.Pipelines
+
+variables:
+  # ========================================================================
+  #                          Mandatory variables 
+  # ========================================================================
+# defines the pipeline agent image to use across the pipeline
+- name: poolImage
+  value: 'windows-latest'
+#sets the terraform version for use across the entire pipeline
+- name: terraformVersion 
+  value: 0.14.8
+
+stages:
+- template: ./templates/deploy-loyaltyservices-environment.yaml
+  parameters:
+    stage_name: 'Dev_SEG_loyaltyservices'
+    depends_on: []
+    environment_name: 'Marketing-Dev'
+    AzureServiceConnection: 'SEGDEVOPS Bi-Lo Holdings DM API Dev'
+    AzureRegion: 'eastus'
+    SubscriptionId: '490b96bd-0560-4953-872d-6ed5e1147222'
+    Environment: 'dev'
+    OrganizationalPrefix: 'seg'
+    TerraformBackingStoreContainerName: 'loyalty'  
+- template: ./templates/deploy-loyaltyservices-environment.yaml
+  parameters:
+    stage_name: 'QA_SEG_loyaltyservices'
+    depends_on: ['Dev_SEG_loyaltyservices']
+    environment_name: 'Marketing-QA'
+    AzureServiceConnection: 'SEGDEVOPS Bi-Lo Holdings DM API Dev'
+    AzureRegion: 'eastus'
+    SubscriptionId: '490b96bd-0560-4953-872d-6ed5e1147222'
+    Environment: 'qa'
+    OrganizationalPrefix: 'seg'
+    TerraformBackingStoreContainerName: 'loyalty'
+- template: ./templates/deploy-loyaltyservices-environment.yaml
+  parameters:
+    stage_name: 'Prod_SEG_loyaltyservices'
+    depends_on: ['QA_SEG_loyaltyservices']
+    environment_name: 'Marketing-Prod'
+    AzureServiceConnection: 'SEGDEVOPS Bi-Lo Holdings DM API Prod'
+    AzureRegion: 'eastus'
+    SubscriptionId: '00966c0f-e5c0-4ae2-954f-a96b6a9af123'
+    Environment: 'prod'
+    OrganizationalPrefix: 'seg'
+    TerraformBackingStoreContainerName: 'loyalty'     

@@ -1,0 +1,81 @@
+parameters:
+- name: buildConfiguration
+  displayName: Build configuration
+  type: string
+  default: Release
+  values:
+  - Debug
+  - Release
+- name: deployAppToAzure
+  displayName: Deploy App to Azure
+  type: boolean
+  default: true
+
+variables:
+- template: ./templates/variables.yml
+
+name: ${{ variables.pipelineDisplayName }}-$(Date:yyyyMMdd)$(Rev:.rr)
+
+trigger: none
+
+resources:
+  repositories:
+  - repository: commonTerraform
+    type: git
+    name: Common.Terraform
+  - repository: commonPipeline
+    type: git
+    name: Common.Pipelines
+
+pool:
+  vmImage: windows-latest
+
+stages:
+- template: ./templates/build.yml
+  parameters:
+    stage: build
+    buildConfiguration: ${{ parameters.buildConfiguration }}
+    dotnetCoreVersion: ${{ variables.dotnetCoreVersion }}
+    nugetVersionSpec: ${{ variables.nugetVersionSpec }}
+    solutionFileName: ${{ variables.solutionFileName }}
+
+- template: ./templates/deploy-env.yml
+  parameters:
+    stage: deployDev
+    dependsOn:
+    - build
+    environment: dev
+    environmentName: ${{ format('{0}-Dev', variables.environmentNamePrefix) }}
+    applicationDisplayName: ${{ variables.applicationDisplayName }}
+    azureServiceConnection: ${{ variables.nonProdAzureServiceConnection }}
+    azureRegion: ${{ variables.azureRegion }}
+    subscriptionId: ${{ variables.nonProdAzureSubscriptionId }}
+    deployAppToAzure: ${{ parameters.deployAppToAzure }}
+
+- template: ./templates/deploy-env.yml
+  parameters:
+    stage: deployQA
+    dependsOn:
+    - build
+    - deployDev
+    environment: qa
+    environmentName: ${{ format('{0}-QA', variables.environmentNamePrefix) }}
+    applicationDisplayName: ${{ variables.applicationDisplayName }}
+    azureServiceConnection: ${{ variables.nonProdAzureServiceConnection }}
+    azureRegion: ${{ variables.azureRegion }}
+    subscriptionId: ${{ variables.nonProdAzureSubscriptionId }}
+    deployAppToAzure: ${{ parameters.deployAppToAzure }}
+
+- template: ./templates/deploy-env.yml
+  parameters:
+    stage: deployProd
+    dependsOn:
+    - build
+    - deployQA
+    environment: prod
+    environmentName: ${{ format('{0}-Prod', 'Marketing') }}
+    applicationDisplayName: ${{ variables.applicationDisplayName }}
+    azureServiceConnection: ${{ variables.productionAzureServiceConnection }}
+    azureRegion: ${{ variables.azureRegion }}
+    subscriptionId: ${{ variables.productionAzureSubscriptionId }}
+    deployAppToAzure: ${{ parameters.deployAppToAzure }}

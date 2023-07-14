@@ -1,0 +1,15 @@
+# install-dotnet.yaml
+# Run Dotnet Tool Installer
+
+parameters:
+- name: dotnetVersion
+  type: string
+  default: "6.0.x"
+
+
+steps:
+- task: UseDotNet@2
+  displayName: 'Use .Net sdk ${{parameters.dotnetVersion}}'
+  inputs:
+    version: ${{parameters.dotnetVersion}}
+

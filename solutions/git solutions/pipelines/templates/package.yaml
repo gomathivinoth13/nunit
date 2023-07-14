@@ -1,0 +1,23 @@
+parameters:
+- name: target_Feed
+  type: string
+
+steps:
+- task: DeleteFiles@1
+  displayName: 'Delete files from '
+  inputs:
+    Contents: '**/*.nupkg'
+
+- task: DotNetCoreCLI@2
+  displayName: Pack
+  inputs:
+    command: pack
+    packDirectory: '$(Build.ArtifactStagingDirectory)\'
+    versioningScheme: byBuildNumber
+    verbosityPack: Normal
+
+- task: NuGetCommand@2
+  displayName: 'NuGet push'
+  inputs:
+    command: push
+    publishVstsFeed: ${{parameters.target_Feed}}

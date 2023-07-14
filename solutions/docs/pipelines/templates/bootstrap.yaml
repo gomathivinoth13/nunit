@@ -1,0 +1,18 @@
+﻿# bootstrap.yaml
+# Basic bootstraps for any build (nuget, dotnet, secrets)
+
+parameters:
+- name: dotnetVersion
+  type: string
+  default: "6.0.x"
+
+steps:
+# Run Dotnet Tool Installer
+- template: ./install-dotnet.yaml
+  parameters:
+    dotnetVersion: ${{parameters.dotnetVersion}}
+# Run Nuget Tool Installer
+- template: ./install-nuget.yaml
+
+
+

@@ -1,0 +1,45 @@
+parameters:
+# AzureServiceConnection - (Required) The name of the service connection that connects Azure DevOps
+# to Azure Resource Manager. Go to Service Connections in Azure DevOps to setup the connection and assign permissions
+# for pipelines to access it.
+- name: AzureServiceConnection
+  type: string
+- name: APIMResourceGroupName
+  type: string
+- name: APIMName
+  type: string
+- name: APIProducts
+  type: string
+- name: APIBackendUrl
+  type: string
+- name: APITaskDisplayName
+  type: string
+- name: APIMAPIName
+  type: string
+- name: SwaggerFileName
+  type: string
+# WorkingPath - (Optional) Working path root for Terraform Infrastructure files for use when working with multi-checkout of repos
+- name: WorkingPath
+  type: string
+  default: $(System.DefaultWorkingDirectory)
+
+steps:
+- pwsh: |
+    start-sleep -seconds 30
+  displayName: 'Waiting for ${{parameters.APITaskDisplayName}} API Backend Url completion'
+- task: stephane-eyskens.apim.apimversioned.apimversioned@4
+  displayName: 'API Management - Create/Update ${{parameters.APITaskDisplayName}} API v1'
+  inputs:
+    ConnectedServiceNameARM: '${{parameters.AzureServiceConnection}}'
+    ResourceGroupName: '${{parameters.APIMResourceGroupName}}'
+    ApiPortalName: '${{parameters.APIMName}}'
+    OpenAPISpec: v3
+    UseProductCreatedByPreviousTask: false
+    product1: |
+      ${{parameters.APIProducts}}
+    SwaggerPicker: Url
+    swaggerlocation: '${{ parameters.APIBackendUrl }}/swagger/v1/swagger.json'
+    targetapi: '${{parameters.APIMAPIName}}' #can contain only letters, numbers, and hyphens. The first and last character must be a letter or a number.
+    NewRevision: false
+    pathapi: '${{lower(parameters.APIMAPIName)}}'
+    MicrosoftApiManagementAPIVersion: '2021-01-01-preview' #Available versions: 2019-01-01, 2019-12-01, 2020-06-01-preview, 2021-01-01-preview

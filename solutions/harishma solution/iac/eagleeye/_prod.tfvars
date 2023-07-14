@@ -1,0 +1,23 @@
+app_service_kind            = "elastic"
+app_service_tier            = "ElasticPremium"
+app_service_sku             = "EP1"
+function_apps_warm_instance_count = 1
+max_instance_count                = 10
+runtime_scale_monitoring_enabled  = true
+plan_name                   = "asp-ElasticPremium-apps"
+cosmos_db_rg                = "rg-omnichannel-core-prod"
+omnichannel_kv_rg           = "rg-omnichannel-security-prod"
+store_locator_address_db_rg = "prdblhmdsworkerswebapi"
+client_id_ee                = "109qrci70l9q6fbwsot2"
+secret_ee                   = "hqi6f8bojcbs3c8yitavmbiwffrd0r"
+base_url_ee                 = "https://api.segrocers.com/EE"
+base_url_campaigns_ee       = "https://api.segrocers.com/EagleEyeCampaignsAPI"
+bilo_partner_code           = "9000006"
+cache_server                = "redis-omnichannel-seg-prod.redis.cache.windows.net:6380"
+fresco_partner_code         = "9000008"
+harveys_partner_code        = "9000007"
+wd_partner_code             = "9000009"
+redis_connection_timeout   = ",connectTimeout=15000"
+ee_healthcheck_memberid    = "SEG0000005563440" #Randy's member id
+digitalmktg_vault_name                = "DigitalMktg-Vault-PROD"
+digitalmktg_vault_resource_group_name = "Security"

@@ -1,0 +1,9 @@
+# install-nuget.yaml
+# Run Nuget Tool Installer
+
+steps:
+- task: NuGetToolInstaller@0
+  displayName: 'Use NuGet 5.x'
+  inputs:
+    versionSpec: 5.x
+    checkLatest: true

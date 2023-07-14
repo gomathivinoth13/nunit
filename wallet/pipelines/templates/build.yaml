@@ -1,0 +1,65 @@
+parameters:
+- name: stage
+  type: string
+
+- name: buildPlatform
+
+  type: string
+  default: Any CPU
+
+- name: buildConfiguration
+  type: string
+
+  default: Release
+- name: dotnetCoreVersion
+
+  type: string
+  default: '6'
+
+- name: nugetVersionSpec
+  type: string
+
+  default: 5.x
+- name: solutionFileName
+
+  type: string
+  default: '**/*.sln'
+
+stages:
+- stage: ${{ parameters.stage }}
+  displayName: Build & Validation Stage
+  jobs:
+  - job: build
+    displayName: Build Full Solution
+    steps:
+    - task: UseDotNet@2
+      displayName: Use .Net Core sdk ${{ parameters.dotnetCoreVersion }}
+      inputs:
+        version: ${{ parameters.dotnetCoreVersion }}
+
+    - task: NuGetToolInstaller@0
+      displayName: Use NuGet ${{ parameters.nugetVersionSpec }}
+      inputs:
+        versionSpec: ${{ parameters.nugetVersionSpec }}
+        checkLatest: true
+
+    - task: NuGetCommand@2
+      displayName: NuGet Restore
+      inputs:
+        command: restore
+        restoreSolution: ${{ parameters.solutionFileName }}
+        feedsToUse: config
+        nugetConfigPath: $(Build.SourcesDirectory)/NuGet.config
+        includeNuGetOrg: true
+
+    - task: DotNetCoreCLI@1
+      displayName: Build Solution
+      inputs:
+        command: publish
+        publishWebProjects: false
+        projects: ${{ parameters.solutionFileName }}
+        arguments: --configuration ${{ parameters.buildConfiguration }} --output $(Build.ArtifactStagingDirectory)
+
+    - publish: $(Build.ArtifactStagingDirectory)
+      displayName: Publish Artifact
+      artifact: drop

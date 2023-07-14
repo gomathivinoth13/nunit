@@ -1,0 +1,10 @@
+ public IssuanceCountCaculatorFunction(TelemetryClient telemetry)
+        
+{
+            if (telemetry != null)
+            
+            {
+                _telemetry = telemetry;
+            }
+           
+ }

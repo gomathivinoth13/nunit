@@ -1,0 +1,179 @@
+parameters:
+# depends_on - (Optional) The array of jobs that this job template depends on. Default is that this job template does not depend on 
+# any other jobs. However, since this is a deployment job, you'll probably want to specify any pre-requisit jobs that
+# this job template depends on.
+- name: depends_on
+  type: object
+  default: []
+# environment_name - (Required) The environment to deploy to. Can be used to introduce a manual gate for approval for stage to proceed.
+- name: environment_name
+  type: string
+# AzureServiceConnection - (Required) The name of the service connection that connects Azure DevOps
+# to Azure Resource Manager. Go to Service Connections in Azure DevOps to setup the connection and assign permissions
+# for pipelines to access it.
+- name: AzureServiceConnection
+  type: string
+# BootstrapAzureRegion - (Optional) The azure region where the bootstrapped terraform state file is to be stored 
+# for all deployments to an environment.
+- name: BootstrapAzureRegion
+  type: string
+  default: ''
+# AzureRegion - (Required) The azure region where the environment will be deployed.
+- name: AzureRegion
+  type: string
+- name: SubscriptionId
+  type: string
+# Envioronment - (Required) The name of environment to deploy
+- name: Environment
+  type: string
+# OrganizationalPrefix - (Required) The organizational prefix to seed into globaly unique names for resources.
+- name: OrganizationalPrefix
+  type: string
+- name: TerraformBackingStoreContainerName
+  type: string
+
+jobs:
+- job: PlanloyaltyServicesAzure
+  displayName: Run Plan for Deployment of Loyalty Services to Azure
+  timeoutInMinutes: 130
+  steps:
+  - checkout: self
+    persistCredentials: true
+    path: self
+  - checkout: commonPipeline
+    persistCredentials: true
+    path: commonPipeline
+  - template: templates/bootstrap-infrastructure.yaml@commonPipeline
+    parameters:
+      AzureServiceConnection: ${{parameters.AzureServiceConnection}}
+      AzureRegion: $(bootstrapAzureRegion)
+      SubscriptionId: ${{parameters.SubscriptionId}}
+      Environment: ${{parameters.Environment}}
+      OrganizationalPrefix: ${{parameters.OrganizationalPrefix}}
+      TerraformBackingStoreResourceGroupName: rg-terraform-${{parameters.Environment}}
+      TerraformBackingStoreContainerName: ${{parameters.TerraformBackingStoreContainerName}}
+      WorkingPath: $(Agent.BuildDirectory)/commonPipeline
+  - template: templates/deploy-infrastructure.yaml@commonPipeline
+    parameters:
+      Action: preview
+      AzureServiceConnection: ${{parameters.AzureServiceConnection}}
+      AzureRegion: ${{parameters.AzureRegion}}
+      SubscriptionId: ${{parameters.SubscriptionId}}
+      Environment: ${{parameters.Environment}}
+      EnvironmentTier: ${{parameters.Environment}}
+      OrganizationalPrefix: ${{parameters.OrganizationalPrefix}}
+      TerraformBackingStoreResourceGroupName: rg-terraform-${{parameters.Environment}}
+      TerraformBackingStoreResourceGroupLocation: $(bootstrapAzureRegion)
+      TerraformBackingStoreStorageAccountName: $(ArmOutputs.tfStateSAName)
+      TerraformBackingStoreContainerName: ${{parameters.TerraformBackingStoreContainerName}}
+      TerraformBackingStoreStateFileName: 'loyaltyservices/terraform.tfstate'
+      TerraformPlanName: 'loyaltyservices_${{parameters.Environment}}'
+      WorkingPath: $(Agent.BuildDirectory)/self
+      InfrastructureRelativePath: iac/loyaltyservices
+- job: waitForValidation
+  dependsOn: ['PlanloyaltyservicesAzure']
+  variables:
+    - name: planHasChanges
+      value: $[ dependencies.PlanloyaltyservicesAzure.outputs['tfplan.TERRAFORM_PLAN_HAS_CHANGES']]
+  pool: server
+  timeoutInMinutes: 4320 # job times out in 3 days
+  steps:
+  - task: ManualValidation@0
+    timeoutInMinutes: 1440 # task times out in 1 day
+    condition: and(succeeded(), eq(variables['planHasChanges'], true))
+    inputs:
+      instructions: 'Please validate the terraform plan configuration and resume'
+- deployment: DeployloyaltyServicesAzure
+  displayName: Deploy Loyalty Services to Azure
+  dependsOn: ['waitForValidation']
+  environment: ${{ parameters.environment_name }}
+  timeoutInMinutes: 130
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+          - checkout: self
+            persistCredentials: true
+            path: self
+          - checkout: commonPipeline
+            persistCredentials: true
+            path: commonPipeline
+          # Deploy infrastructure using terraform (only APIM configuration and pipeline config right now)
+          - template: templates/bootstrap-infrastructure.yaml@commonPipeline
+            parameters:
+              AzureServiceConnection: ${{parameters.AzureServiceConnection}}
+              AzureRegion: $(bootstrapAzureRegion)
+              SubscriptionId: ${{parameters.SubscriptionId}}
+              Environment: ${{parameters.Environment}}
+              OrganizationalPrefix: ${{parameters.OrganizationalPrefix}}
+              TerraformBackingStoreResourceGroupName: rg-terraform-${{parameters.Environment}}
+              TerraformBackingStoreContainerName: ${{parameters.TerraformBackingStoreContainerName}}
+              WorkingPath: $(Agent.BuildDirectory)/commonPipeline
+          - template: templates/deploy-infrastructure.yaml@commonPipeline
+            parameters:
+              Action: deploy
+              AzureServiceConnection: ${{parameters.AzureServiceConnection}}
+              AzureRegion: ${{parameters.AzureRegion}}
+              SubscriptionId: ${{parameters.SubscriptionId}}
+              Environment: ${{parameters.Environment}}
+              EnvironmentTier: ${{parameters.Environment}}
+              OrganizationalPrefix: ${{parameters.OrganizationalPrefix}}
+              TerraformBackingStoreResourceGroupName: rg-terraform-${{parameters.Environment}}
+              TerraformBackingStoreResourceGroupLocation: $(bootstrapAzureRegion)
+              TerraformBackingStoreStorageAccountName: $(ArmOutputs.tfStateSAName)
+              TerraformBackingStoreContainerName: ${{parameters.TerraformBackingStoreContainerName}}
+              TerraformBackingStoreStateFileName: 'loyaltyservices/terraform.tfstate'
+              WorkingPath: $(Agent.BuildDirectory)/self
+              InfrastructureRelativePath: iac/loyaltyservices
+          # Code Deployment onto Infrastructure
+          - task: AzureAppServiceManage@0
+            displayName: 'Stop Azure App Service: loyaltyservices'
+            inputs:
+              azureSubscription: ${{parameters.AzureServiceConnection}}
+              Action: 'Stop Azure App Service'
+              WebAppName: $(TF_OUT_APP_SERVICE_NAME)
+          - task: AzureAppServiceManage@0
+            displayName: 'Stop all continuous webjobs: loyaltyservices'
+            inputs:
+              azureSubscription: ${{parameters.AzureServiceConnection}}
+              Action: 'Stop all continuous webjobs'
+              WebAppName: $(TF_OUT_APP_SERVICE_NAME)              
+          - task: AzureRmWebAppDeployment@4
+            displayName: 'Deploy Azure App Service: loyaltyservicesCore'
+            inputs:
+              azureSubscription: ${{parameters.AzureServiceConnection}}
+              WebAppName: $(TF_OUT_APP_SERVICE_NAME)
+              packageForLinux: '$(Agent.BuildDirectory)/loyaltyservicesazure${{parameters.Environment}}/drop/SEGLoyaltyServiceWeb.zip'
+              enableCustomDeployment: true
+              ExcludeFilesFromAppDataFlag: false
+          - task: AzureRmWebAppDeployment@4
+            displayName: 'Deploy Azure App Service: loyaltyservicesCore'
+            inputs:
+              azureSubscription: ${{parameters.AzureServiceConnection}}
+              WebAppName: $(TF_OUT_APP_SERVICE_NAME)
+              packageForLinux: '$(Pipeline.Workspace)/webjob${{parameters.Environment}}/QueueExecutionEngineWorker/SEG.QueueExecutionEngineWorker.zip'
+              enableCustomDeployment: true
+              ExcludeFilesFromAppDataFlag: false              
+          - task: AzureAppServiceManage@0
+            displayName: 'Start Azure App Service: loyaltyservices'
+            inputs:
+              azureSubscription: ${{parameters.AzureServiceConnection}}
+              Action: 'Start Azure App Service'
+              WebAppName: $(TF_OUT_APP_SERVICE_NAME)
+          - task: AzureAppServiceManage@0
+            displayName: 'Start all continuous webjobs: loyaltyservices'
+            inputs:
+              azureSubscription: ${{parameters.AzureServiceConnection}}
+              Action: 'Start all continuous webjobs'
+              WebAppName: $(TF_OUT_APP_SERVICE_NAME)                
+          - template: ./deploy-api-apim.yaml
+            parameters:
+              AzureServiceConnection: ${{parameters.AzureServiceConnection}}
+              APIMResourceGroupName: $(TF_OUT_APIM_RESOURCE_GROUP_NAME)
+              APIMName: $(TF_OUT_APIM_NAME)
+              APIProducts: $(TF_OUT_API_PRODUCTS)
+              APIBackendUrl: 'https://$(TF_OUT_APP_SERVICE_HOSTNAME)'
+              APITaskDisplayName: 'Loyalty Services'
+              SwaggerFileName: 'segloyaltysvcs-v1.json'
+              APIMAPIName: loyaltyservices
+              WorkingPath: $(Agent.BuildDirectory)/self

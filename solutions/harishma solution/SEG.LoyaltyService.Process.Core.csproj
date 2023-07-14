@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+	  <AssemblyVersion>2023.6.8.1</AssemblyVersion>
+	  <FileVersion>2023.6.8.1</FileVersion>
+	  <Version>2023.6.8.1</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="ApiQueues.cs" />
+    <Compile Remove="ProcessMappingsProfile.cs" />
+    <Compile Remove="SEG.CrcGenerator\Utility.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Storage.Queues" Version="12.11.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" /> 
+	<PackageReference Include="SEG.CustomerWebService.Core" Version="2023.6.8.2" />
+    <PackageReference Include="SEG.LoyaltyDatabase.Core" Version="2023.6.8.1" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="SEG.CrcGenerator\" />
+  </ItemGroup>
+
+</Project>

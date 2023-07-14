@@ -1,0 +1,86 @@
+.net5 to .net 6 conversion: 
+
+steps : 
+
+you can refer to below library and function app repo for reference . they are currently in .net6 
+
+https://segdevops.visualstudio.com/SE%20Grocers/_git/SEG.EagleEyeLibrary 
+
+and 
+
+https://segdevops.visualstudio.com/SE%20Grocers/_git/EagleEyeFunctionApp
+
+
+
+prerequisite : 
+
+Visual Studio 2022 with the ASP.NET and web development workload.
+
+
+update target framework : 
+
+  <TargetFramework>net6.0</TargetFramework>
+    <AzureFunctionsVersion>v4</AzureFunctionsVersion>
+
+
+update all build and release pipeline YAML code to 6 . any reference to .net5 should be updated to point to .net6 . 
+
+parameters:
+- name: dotnetVersion
+  type: string
+  default: "6.0.x"
+
+
+make sure you are referring to /function-v4 module functionapp.tf
+
+if your functionapp.tf is referencing /shared-plan-function-app-v2 
+ 
+USE below 
+ source = "git::https://dev.azure.com/SEGDEVOPS/SE%20Grocers/_git/Common.Terraform//modules/shared-plan-function-app-v2-function-v4"
+
+if your functionapp.tf is referencing /shared-plan-function-app-v3
+
+USE below 
+ source = "git::https://dev.azure.com/SEGDEVOPS/SE%20Grocers/_git/Common.Terraform//modules/shared-plan-function-app-v3-function-v4"
+---------------------------------------------
+
+using System;
+using System.Reflection;
+using AzureFunctions.Extensions.Swashbuckle;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Azure.Functions.Extensions.DependencyInjection;
+using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using ListStartersFunctionApp;
+using SEG.ListStartersLibrary.Implementation;
+using SEG.ListStartersLibrary.Interfaces;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using AzureFunctions.Extensions.Swashbuckle.Settings;
+using Microsoft.OpenApi.Models;
+
+
+[assembly: WebJobsStartup(typeof(Startup))]
+namespace ListStartersFunctionApp
+{
+
+    public class Startup : FunctionsStartup
+    {
+        public override void Configure(IFunctionsHostBuilder builder)
+        {
+            //Swagger
+            builder.AddSwashBuckle(Assembly.GetExecutingAssembly(), options =>
+            {
+                options.PrependOperationWithRoutePrefix = false;
+            });
+                
+
+            //Interfaces
+            builder.Services.AddTransient<IListStarterProducts, ListStarterProductsDAL>();
+            builder.Services.AddTransient<IListStarters, ListStartersDAL>();
+            builder.Services.AddTransient<IListStarterBanner, ListStarterBannerDAL>();
+            builder.Services.AddTransient<IListStarterImages, ListStarterImagesDAL>();
+        }
+    }
+}
+

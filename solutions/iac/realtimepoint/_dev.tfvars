@@ -1,0 +1,17 @@
+﻿
+omnichannel_kv_rg                     = "rg-omnichannel-security-dev"
+salesforceapimauthendpoint            = "https://dev-api.segrocers.com/sfmcauthservice/" 
+salesforceapimbaseendpoint            = "https://dev-api.segrocers.com/sfmcservice/"
+ocpapimsubscriptionkey                = "4f3d103db654429796e24164fdc97930"
+cache_server                          = "redis-omnichannel-seg-dev.redis.cache.windows.net:6380"
+client_id_ee                          = "loexzymj7g3ncjtvl4rq"
+secret_ee                             = "wcxp8l9aof43gq39ro94uitcb6wnkh"
+base_url_ee                           = "https://dev-api.segrocers.com/EE"
+base_url_campaigns_ee                 = "https://dev-api.segrocers.com/EagleEyeCampaignsAPI"
+redis_connection_timeout              = ",connectTimeout=15000"
+seg_key                               = "SEG_All_Cust_Data_QA"
+digitalmktg_vault_name                = "DigitalMktg-Vault-DEV"
+digitalmktg_vault_resource_group_name = "ActiveDirectory-DEV"
+segclientid                           =  "0yua73njn9z82zvi158d73th"
+segclientsecret                       =  "efb4ZlZdgjQbcnwfgSijz9uE"
+
